@@ -16,6 +16,9 @@ Munros.prototype.getData = function () {
       this.regions = regions;
       PubSub.publish('Munro:munro-data-ready', this.data);
       PubSub.publish('Munro:regions-data-ready', regions);
+    })
+    .catch( (err)=>{
+      PubSub.publish('Munro:error', err );
     });
 
 };
@@ -24,7 +27,7 @@ Munros.prototype.bindEvents = function () {
 
   PubSub.subscribe('SelectView:region-selection-made', (evt) => {
     const munros = this.getMunrosInRegion(evt.detail);
-    PubSub.publish('Munro:regional-munro-data-ready', munros);
+    const munrosWithWeather = this.getWeather(munros);
   });
 
 };
@@ -49,6 +52,31 @@ Munros.prototype.getRegions = function () {
     return index === regions.indexOf(region);
   })
   return regions;
+};
+
+Munros.prototype.getWeather = function (munros) {
+
+  const allRequests = munros.map( (munro) => {
+
+    const helper = new RequestHelper(`http://api.openweathermap.org/data/2.5/weather?lat=${munro.latlng_lat}&lon=${munro.latlng_lng}&APPID=0c15a71fb3f9c7e86d4f468ade343708`);
+
+     return helper.get()
+      .then( (weather) => {
+        munro["weather"] = weather.weather[0].description;
+        munro["temperature"] = weather.main.temp -273.15;
+        return munro;
+      })
+      .catch( (err)=>{
+        PubSub.publish('Munro:error', err );
+      });
+
+  });
+  // console.log(allRequests);
+
+  Promise.all(allRequests).then((values) =>{
+    // console.log(values);
+    PubSub.publish('Munro:regional-munro-data-ready', values)
+  });
 };
 
 

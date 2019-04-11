@@ -1,6 +1,7 @@
 const Munros = require('./models/munros.js');
 const MunroListView = require('./views/munro_list_view.js');
 const SelectView = require('./views/select_view.js');
+const ErrorView = require('./views/error_view.js');
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('JavaScript Loaded');
@@ -8,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const listContainer = document.querySelector('#munro-list-view-wrapper');
   const munroListView = new MunroListView(listContainer);
   munroListView.bindEvents();
+
+  const errorView = new ErrorView(listContainer);
+  errorView.bindEvents();
 
   const select = document.querySelector('#munro-select');
   const munroSelectView = new SelectView(select);
