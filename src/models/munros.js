@@ -73,9 +73,9 @@ Munros.prototype.getWeather = function (munros) {
   });
   // console.log(allRequests);
 
-  Promise.all(allRequests).then((values) =>{
+  Promise.all(allRequests).then((munrosWithWeather) =>{
     // console.log(values);
-    PubSub.publish('Munro:regional-munro-data-ready', values)
+    PubSub.publish('Munro:regional-munro-data-ready', munrosWithWeather)
   });
 };
 

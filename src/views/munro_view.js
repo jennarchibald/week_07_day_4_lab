@@ -27,7 +27,7 @@ MunroView.prototype.createParagraph = function () {
   // console.log(this.munro);
   // console.log(this.munro.weather);
   if (this.munro.weather){
-    paragraph.textContent = `${this.munro.name} is ${this.munro.height} metres at it's peak. The meaning of it's name is: "${this.munro.meaning}". The current weather is ${this.munro.weather}. The current temperature is ${this.munro.temperature}C.`;
+    paragraph.textContent = `${this.munro.name} is ${this.munro.height} metres at it's peak. The meaning of it's name is: "${this.munro.meaning}". The current weather is ${this.munro.weather}. The current temperature is ${Math.round(this.munro.temperature)}C.`;
   } else {
     paragraph.textContent = `${this.munro.name} is ${this.munro.height} metres at it's peak. The meaning of it's name is: "${this.munro.meaning}".`;
   };
