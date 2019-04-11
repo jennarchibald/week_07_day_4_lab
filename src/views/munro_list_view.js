@@ -9,6 +9,9 @@ MunroListView.prototype.bindEvents = function () {
   PubSub.subscribe('Munro:munro-data-ready', (evt) => {
     this.render(evt.detail);
   });
+  PubSub.subscribe('Munro:regional-munro-data-ready', (evt) => {
+    this.render(evt.detail);
+  });
 };
 
 MunroListView.prototype.render = function (data) {
